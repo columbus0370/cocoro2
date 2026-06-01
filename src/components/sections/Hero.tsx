@@ -1,18 +1,49 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import FloatingOrbs from "@/components/ui/FloatingOrbs";
 import StarField from "@/components/ui/StarField";
 
 const YT_ID = "6C2-AIDyTlA";
-const YT_SRC = `https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&mute=1&loop=1&controls=0&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1`;
+// loop/playlist パラメータを外してJS側でループ制御 → prev/next矢印が出なくなる
+const YT_SRC =
+  `https://www.youtube-nocookie.com/embed/${YT_ID}` +
+  `?autoplay=1&mute=1&controls=0&playsinline=1` +
+  `&rel=0&showinfo=0&disablekb=1&fs=0` +
+  `&iv_load_policy=3&modestbranding=1&enablejsapi=1`;
 
 export default function Hero() {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const parallaxY   = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  // YouTube postMessage でループ制御（loop&playlist不要 → ナビ矢印が出ない）
+  useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      if (!e.data || typeof e.data !== "string") return;
+      try {
+        const data = JSON.parse(e.data);
+        // state 0 = ended → 先頭に戻って再生
+        if (data.event === "onStateChange" && data.info === 0) {
+          iframeRef.current?.contentWindow?.postMessage(
+            JSON.stringify({ event: "command", func: "seekTo", args: [0, true] }),
+            "*"
+          );
+          iframeRef.current?.contentWindow?.postMessage(
+            JSON.stringify({ event: "command", func: "playVideo", args: [] }),
+            "*"
+          );
+        }
+      } catch {
+        // non-JSON messages from other sources — ignore
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
 
   return (
     <section
@@ -23,30 +54,39 @@ export default function Hero() {
       {/* ── YouTube background ── */}
       <div className="absolute inset-0 overflow-hidden">
         <iframe
+          ref={iframeRef}
           src={YT_SRC}
           className="absolute"
           style={{
-            /* 16:9 を画面全体にカバーする最小サイズ計算 */
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: "100vw",
-            height: "56.25vw",   /* 100vw × 9/16 */
+            height: "56.25vw",
             minHeight: "100vh",
-            minWidth: "177.78vh", /* 100vh × 16/9 */
-            pointerEvents: "none",
+            minWidth: "177.78vh",
+            pointerEvents: "none", // ユーザー操作を完全ブロック
           }}
           frameBorder="0"
           allow="autoplay; encrypted-media"
           title="hero background"
         />
 
-        {/* Dark overlay */}
+        {/* 動画読み込み中のUI要素を隠す不透明カバー（フェードアウト） */}
+        <motion.div
+          className="absolute inset-0 bg-[#0D0D0D]"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 1.5, delay: 1.8 }}
+          style={{ pointerEvents: "none" }}
+        />
+
+        {/* Dark overlay — テキスト可読性 */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(13,13,13,0.6) 0%, rgba(13,13,13,0.45) 40%, rgba(13,13,13,0.72) 80%, #0D0D0D 100%)",
+              "linear-gradient(to bottom, rgba(13,13,13,0.65) 0%, rgba(13,13,13,0.5) 40%, rgba(13,13,13,0.75) 80%, #0D0D0D 100%)",
           }}
         />
         {/* Brand color wash */}
@@ -88,7 +128,6 @@ export default function Hero() {
         style={{ y: parallaxY, opacity: textOpacity }}
         className="relative z-10 flex flex-col items-center text-center px-6 w-full max-w-2xl mx-auto"
       >
-        {/* Genre label */}
         <motion.p
           className="font-poppins text-[10px] tracking-[0.4em] uppercase mb-8"
           style={{ color: "var(--purple)" }}
@@ -99,7 +138,6 @@ export default function Hero() {
           GIRLS HIPHOP / HIPHOP
         </motion.p>
 
-        {/* Main name */}
         <div className="overflow-hidden mb-2">
           <motion.h1
             className="font-playfair font-bold leading-none gradient-text glow-purple"
@@ -112,7 +150,6 @@ export default function Hero() {
           </motion.h1>
         </div>
 
-        {/* Japanese name */}
         <motion.p
           className="font-noto text-white/50 text-sm tracking-[0.4em] mb-10"
           initial={{ opacity: 0 }}
@@ -122,7 +159,6 @@ export default function Hero() {
           温
         </motion.p>
 
-        {/* Tagline */}
         <motion.p
           className="font-playfair italic text-white/80 mb-12"
           style={{ fontSize: "clamp(15px, 3.8vw, 22px)", letterSpacing: "0.06em" }}
@@ -133,7 +169,6 @@ export default function Hero() {
           Dance with your own style
         </motion.p>
 
-        {/* CTA Buttons */}
         <motion.div
           className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
           initial={{ opacity: 0, y: 20 }}
@@ -172,7 +207,7 @@ export default function Hero() {
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.2, duration: 1 }}
+        transition={{ delay: 2.5, duration: 1 }}
       >
         <span className="font-poppins text-[9px] tracking-[0.4em] text-white/30 uppercase">Scroll</span>
         <motion.div

@@ -1,9 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { staggerContainer, fadeInUp, slideInLeft, slideInRight } from "@/lib/animations";
+import { staggerContainer, fadeInUp } from "@/lib/animations";
 
 const values = [
   { icon: "✦", title: "自分らしく", body: "型にはまらない。あなたらしい動きを一緒に探していきます。" },
@@ -41,23 +42,27 @@ export default function About() {
         </ScrollReveal>
 
         {/* Main block */}
-        <div className="grid md:grid-cols-2 gap-16 items-start mb-20">
-          {/* Photo placeholder */}
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-start mb-20">
+          {/* Photo */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative"
+            /* スマホでは右のはみ出しをなくすため overflow-hidden + パディングでバッジ分を確保 */
+            className="relative pb-8 md:pb-0"
           >
             <div
               className="relative aspect-[3/4] rounded-2xl overflow-hidden glass"
               style={{ border: "1px solid rgba(179,136,255,0.2)" }}
             >
-              {/* Profile photo */}
-              <img
+              {/* Profile photo — Next/image で basePath を自動付与 */}
+              <Image
                 src="/assets/profile.png"
                 alt="cocoro"
-                className="absolute inset-0 w-full h-full object-cover object-top"
+                fill
+                className="object-cover object-top"
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
 
               {/* Corner decoration */}
@@ -67,9 +72,11 @@ export default function About() {
               />
             </div>
 
-            {/* Floating badge */}
+            {/* Floating badge
+                スマホ: カードの内側右下 (bottom-3 right-3)
+                PC: カードからはみ出す (-bottom-5 -right-5) */}
             <motion.div
-              className="absolute -bottom-5 -right-5 glass px-5 py-3 rounded-xl"
+              className="absolute bottom-3 right-3 md:-bottom-5 md:-right-5 glass px-4 py-2 md:px-5 md:py-3 rounded-xl"
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               style={{ border: "1px solid rgba(179,136,255,0.2)" }}
@@ -96,7 +103,11 @@ export default function About() {
               その体験を、レッスンに来てくれるみんなにも届けたいと思っています。
             </motion.p>
 
-            <motion.div variants={fadeInUp} className="glass rounded-xl p-5" style={{ border: "1px solid rgba(179,136,255,0.12)" }}>
+            <motion.div
+              variants={fadeInUp}
+              className="glass rounded-xl p-5"
+              style={{ border: "1px solid rgba(179,136,255,0.12)" }}
+            >
               <p className="font-poppins text-xs tracking-[0.3em] text-white/30 uppercase mb-3">Style</p>
               <div className="flex flex-wrap gap-2">
                 {["GIRLS HIPHOP", "HIPHOP", "STREET", "K-POP"].map((tag) => (
@@ -130,7 +141,7 @@ export default function About() {
               variants={fadeInUp}
               whileHover={{ y: -6, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
-              className="glass rounded-2xl p-7 flex flex-col gap-3"
+              className="glass rounded-2xl p-6 sm:p-7 flex flex-col gap-3"
               style={{ border: "1px solid rgba(179,136,255,0.12)" }}
             >
               <span className="text-2xl" style={{ color: "var(--purple)" }}>{v.icon}</span>
