@@ -720,24 +720,66 @@ body::before {
 
 .ig-follow-btn:hover { background: rgba(201,116,138,.35); }
 
-/* SnapWidget 埋め込みエリア */
-.ig-feed-placeholder {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+/* Behold / SnapWidget 埋め込みエリア */
+.ig-feed-embed {
+  width: 100%;
+  min-height: 320px;
 }
 
-.ig-cell {
-  aspect-ratio: 1;
-  background: rgba(245,240,248,.04);
+/* ウィジェット未設定時のリンクカード */
+.ig-link-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 20px;
+  text-decoration: none;
+  transition: background .25s;
+}
+
+.ig-link-card:hover { background: rgba(245,240,248,.03); }
+
+.ig-link-logo {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-.ig-cell:nth-child(odd) { background: rgba(245,240,248,.06); }
+.ig-link-logo svg { width: 28px; height: 28px; }
 
-.ig-cell svg { width: 18px; height: 18px; opacity: .15; }
+.ig-link-handle {
+  font-family: var(--font-street);
+  font-size: 16px;
+  letter-spacing: .1em;
+  color: var(--off);
+}
+
+.ig-link-sub {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .06em;
+  text-align: center;
+}
+
+.ig-link-btn {
+  margin-top: 4px;
+  padding: 10px 28px;
+  background: rgba(201,116,138,.18);
+  border: 1px solid rgba(201,116,138,.45);
+  border-radius: 20px;
+  font-family: var(--font-street);
+  font-size: 11px;
+  letter-spacing: .15em;
+  color: var(--rose-lt);
+  transition: background .25s;
+}
+
+.ig-link-card:hover .ig-link-btn { background: rgba(201,116,138,.3); }
 
 .ig-note {
   text-align: center;
@@ -1063,7 +1105,10 @@ body::before {
 
   <div class="about-photo-wrap reveal">
     <div class="about-photo">
-      <div class="about-photo-placeholder">
+      <img src="./assets/profile.jpg" alt="cocoro"
+           style="width:100%;height:100%;object-fit:cover;object-position:center top;"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="about-photo-placeholder" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
           <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
         </svg>
@@ -1253,48 +1298,31 @@ body::before {
       </div>
 
       <!--
-        SnapWidget 等の埋め込みコードをここに貼り付け。
-        例: <script src="https://snapwidget.com/js/snapwidget.js"></script>
-            <iframe src="https://snapwidget.com/embed/XXXXXXX" ...></iframe>
-        以下はプレースホルダー
+        === Behold ウィジェット埋め込み手順 ===
+        1. https://behold.so にアクセス（無料）
+        2. 「Connect Instagram」でログイン
+        3. ウィジェットを作成 → 「Get embed code」をコピー
+        4. 下の ig-feed-embed div の中身を置き換える
+        ========================================
       -->
-      <div class="ig-feed-placeholder">
-        <div class="ig-cell">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-        </div>
-        <div class="ig-cell">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
-            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
-          </svg>
-        </div>
-        <div class="ig-cell">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-        </div>
-        <div class="ig-cell">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-        </div>
-        <div class="ig-cell">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
-            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
-          </svg>
-        </div>
-        <div class="ig-cell">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-        </div>
+      <div class="ig-feed-embed">
+        <!-- Behold / SnapWidget のコードをここに貼り付け -->
+        <!-- 未設定の間は以下のリンクカードが表示される -->
+        <a href="https://www.instagram.com/cocoro_on_02"
+           target="_blank" rel="noopener"
+           class="ig-link-card">
+          <div class="ig-link-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="#fff" stroke="none"/>
+            </svg>
+          </div>
+          <div class="ig-link-handle">@cocoro_on_02</div>
+          <div class="ig-link-sub">最新のダンス動画・活動情報はInstagramで</div>
+          <div class="ig-link-btn">INSTAGRAM を見る</div>
+        </a>
       </div>
-      <div class="ig-note">※ SnapWidget等のInstagramウィジェットに差し替え</div>
     </div>
   </div>
 </section>
@@ -1346,7 +1374,7 @@ body::before {
       </svg>
     </a>
   </div>
-  <p class="footer-copy">&copy; 2024 cocoro. All rights reserved.</p>
+  <p class="footer-copy">&copy; 2025 cocoro. All rights reserved.</p>
 </footer>
 
 
