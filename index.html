@@ -67,8 +67,20 @@ body::before {
   letter-spacing: .25em;
   color: var(--rose);
   text-transform: uppercase;
-  display: block;
-  margin-bottom: 10px;
+  display: inline-block;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.section-label::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--rose);
+  box-shadow: 0 0 6px rgba(201,116,138,.7);
 }
 
 .section-title {
@@ -124,6 +136,21 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hero-placeholder::after {
+  content: 'DANCE';
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-street);
+  font-size: clamp(80px, 30vw, 160px);
+  letter-spacing: .15em;
+  color: rgba(123,94,167,.06);
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
 }
 
 .hero-placeholder-icon {
@@ -197,23 +224,37 @@ body::before {
 
 .hero-name {
   font-family: var(--font-display);
-  font-size: clamp(52px, 18vw, 80px);
+  font-size: clamp(64px, 20vw, 96px);
   font-weight: 700;
   line-height: .95;
   letter-spacing: -.01em;
-  color: #fff;
   margin-bottom: 10px;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    var(--rose-lt) 35%,
+    var(--off) 60%,
+    var(--purple) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 28px rgba(201,116,138,.45));
 }
 
 .hero-name-sub {
+  position: absolute;
+  right: 24px;
+  bottom: 110px;
+  writing-mode: vertical-rl;
   font-family: var(--font-display);
-  font-size: clamp(14px, 4vw, 18px);
+  font-size: 13px;
   font-weight: 400;
   font-style: italic;
   color: var(--muted);
-  letter-spacing: .05em;
-  margin-bottom: 20px;
+  letter-spacing: .25em;
   line-height: 1.6;
+  margin-bottom: 0;
 }
 
 .hero-tags {
@@ -289,6 +330,18 @@ body::before {
   white-space: nowrap;
 }
 
+#about::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0; right: 0;
+  height: 48px;
+  background: linear-gradient(180deg, var(--deep2) 0%, transparent 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 .about-photo-wrap {
   position: relative;
   width: 100%;
@@ -326,29 +379,36 @@ body::before {
   letter-spacing: .2em;
 }
 
+@keyframes borderGlow {
+  0%, 100% { opacity: .35; filter: drop-shadow(0 0 0px rgba(201,116,138,0)); }
+  50%       { opacity: .75; filter: drop-shadow(0 0 8px rgba(201,116,138,.5)); }
+}
+
 /* 写真の飾り枠 */
 .about-photo-frame {
   position: absolute;
   bottom: -10px;
   right: -10px;
-  width: 60%;
-  height: 60%;
+  width: 70%;
+  height: 70%;
   border-right: 1.5px solid var(--rose);
   border-bottom: 1.5px solid var(--rose);
   opacity: .4;
   pointer-events: none;
+  animation: borderGlow 3.5s ease-in-out infinite;
 }
 
 .about-photo-frame2 {
   position: absolute;
   top: -10px;
   left: -10px;
-  width: 40%;
-  height: 40%;
+  width: 50%;
+  height: 50%;
   border-left: 1.5px solid var(--purple);
   border-top: 1.5px solid var(--purple);
   opacity: .35;
   pointer-events: none;
+  animation: borderGlow 3.5s ease-in-out infinite reverse;
 }
 
 .about-text { margin-bottom: 28px; }
@@ -376,6 +436,15 @@ body::before {
   line-height: 2;
   color: rgba(245,240,248,.75);
   font-weight: 300;
+}
+
+.about-divider {
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--rose), transparent);
+  margin: 18px 0;
+  opacity: .6;
 }
 
 .about-badges {
@@ -434,15 +503,18 @@ body::before {
 
 .studio-card {
   background: rgba(245,240,248,.04);
-  border: 1px solid rgba(245,240,248,.1);
-  border-radius: 4px;
+  border-top: 1px solid rgba(245,240,248,.1);
+  border-right: 1px solid rgba(245,240,248,.1);
+  border-bottom: 1px solid rgba(245,240,248,.1);
+  border-left: 3px solid rgba(201,116,138,.55);
+  border-radius: 0 4px 4px 0;
   overflow: hidden;
   margin-bottom: 20px;
-  transition: border-color .3s;
+  transition: border-color .3s, box-shadow .3s;
 }
-
 .studio-card:hover {
-  border-color: rgba(201,116,138,.35);
+  border-left-color: var(--rose);
+  box-shadow: -4px 0 20px rgba(201,116,138,.2);
 }
 
 .studio-card-head {
@@ -677,16 +749,24 @@ body::before {
 .ig-embed-list {
   margin-top: 28px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.ig-embed-list::-webkit-scrollbar { display: none; }
 
 .ig-embed-list .instagram-media {
+  flex: 0 0 82vw;
+  max-width: 320px !important;
   min-width: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 auto !important;
+  width: 82vw !important;
+  margin: 0 !important;
+  scroll-snap-align: start;
   border-radius: 4px !important;
 }
 
@@ -780,6 +860,39 @@ body::before {
   font-size: 11px;
   color: rgba(245,240,248,.3);
   letter-spacing: .06em;
+}
+
+.cta-trust {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 28px;
+  padding: 16px 20px;
+  border: 1px solid rgba(201,116,138,.2);
+  border-radius: 4px;
+  background: rgba(201,116,138,.04);
+}
+.cta-trust-item { text-align: center; }
+.cta-trust-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--rose-lt);
+  font-style: italic;
+}
+.cta-trust-label {
+  font-family: var(--font-street);
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: var(--muted);
+}
+.cta-trust-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(201,116,138,.25);
+  flex-shrink: 0;
 }
 
 /* ============================================================
@@ -1031,7 +1144,8 @@ body::before {
     <div class="about-name-ja">温</div>
     <p class="about-body">
       GIRLS HIPHOPとHIPHOPを軸に、力強さと繊細さを踊りで表現するダンス講師。<br>
-      S projectに所属し、関西を拠点に活動。<br><br>
+      S projectに所属し、関西を拠点に活動。
+      <span class="about-divider"></span>
       「踊ることで自分を表現する喜びを、すべての人に」をモットーに、
       幼児から大人まで幅広い年齢層を対象にレッスンを展開中。
     </p>
@@ -1222,6 +1336,17 @@ body::before {
       はじめての方も大歓迎。<br>
       Instagram DMからお気軽にご連絡ください。
     </p>
+    <div class="cta-trust">
+      <div class="cta-trust-item">
+        <span class="cta-trust-num">3歳〜</span>
+        <span class="cta-trust-label">幅広い年齢に対応</span>
+      </div>
+      <div class="cta-trust-divider"></div>
+      <div class="cta-trust-item">
+        <span class="cta-trust-num">2スタジオ</span>
+        <span class="cta-trust-label">神戸・尼崎エリア</span>
+      </div>
+    </div>
     <a href="https://ig.me/m/cocoro_on_02"
        target="_blank" rel="noopener"
        class="cta-btn">
