@@ -16,13 +16,12 @@ export default function About() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" ref={ref} className="relative py-32 px-6 overflow-hidden">
-      {/* BG accent */}
+    <section id="about" ref={ref} className="relative py-32 px-6 overflow-hidden" style={{ isolation: "isolate" }}>
+      {/* BG accent — contained within viewport width to prevent iOS Safari blur overflow */}
       <div
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(179,136,255,0.05) 0%, transparent 70%)",
-          filter: "blur(60px)",
+          background: "radial-gradient(circle, rgba(179,136,255,0.08) 0%, transparent 70%)",
         }}
       />
 
@@ -60,7 +59,7 @@ export default function About() {
               <img
                 src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/assets/profile.png`}
                 alt="cocoro"
-                className="absolute inset-0 w-full h-full object-cover object-top"
+                className="absolute inset-0 w-full h-full object-cover object-center"
               />
 
               {/* Corner decoration */}
