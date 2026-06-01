@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import FloatingOrbs from "@/components/ui/FloatingOrbs";
 import StarField from "@/components/ui/StarField";
 
@@ -16,33 +16,49 @@ const YT_SRC =
 export default function Hero() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ref = useRef<HTMLElement>(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const parallaxY   = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  // YouTube postMessage でループ制御（loop&playlist不要 → ナビ矢印が出ない）
   useEffect(() => {
+    // 動画が実際に再生開始するまでカバーを維持
+    // state 1 = playing になったときだけカバーを外す
+    // 万が一メッセージが届かない場合は 6 秒でフォールバック
+    const fallback = setTimeout(() => setVideoPlaying(true), 6000);
+
     const onMessage = (e: MessageEvent) => {
       if (!e.data || typeof e.data !== "string") return;
       try {
         const data = JSON.parse(e.data);
-        // state 0 = ended → 先頭に戻って再生
-        if (data.event === "onStateChange" && data.info === 0) {
-          iframeRef.current?.contentWindow?.postMessage(
-            JSON.stringify({ event: "command", func: "seekTo", args: [0, true] }),
-            "*"
-          );
-          iframeRef.current?.contentWindow?.postMessage(
-            JSON.stringify({ event: "command", func: "playVideo", args: [] }),
-            "*"
-          );
+        if (data.event === "onStateChange") {
+          if (data.info === 1) {
+            // Playing — カバーをフェードアウト
+            setVideoPlaying(true);
+            clearTimeout(fallback);
+          }
+          if (data.info === 0) {
+            // Ended — 先頭から再生
+            iframeRef.current?.contentWindow?.postMessage(
+              JSON.stringify({ event: "command", func: "seekTo", args: [0, true] }),
+              "*"
+            );
+            iframeRef.current?.contentWindow?.postMessage(
+              JSON.stringify({ event: "command", func: "playVideo", args: [] }),
+              "*"
+            );
+          }
         }
       } catch {
-        // non-JSON messages from other sources — ignore
+        // ignore non-JSON messages
       }
     };
+
     window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      clearTimeout(fallback);
+    };
   }, []);
 
   return (
@@ -72,12 +88,11 @@ export default function Hero() {
           title="hero background"
         />
 
-        {/* 動画読み込み中のUI要素を隠す不透明カバー（フェードアウト） */}
+        {/* 動画が再生開始するまで完全に隠すカバー。state=1(playing) で初めてフェードアウト */}
         <motion.div
           className="absolute inset-0 bg-[#0D0D0D]"
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 0 }}
-          transition={{ duration: 1.5, delay: 1.8 }}
+          animate={{ opacity: videoPlaying ? 0 : 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
           style={{ pointerEvents: "none" }}
         />
 

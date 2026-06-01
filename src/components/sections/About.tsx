@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -55,14 +54,13 @@ export default function About() {
               className="relative aspect-[3/4] rounded-2xl overflow-hidden glass"
               style={{ border: "1px solid rgba(179,136,255,0.2)" }}
             >
-              {/* Profile photo — Next/image で basePath を自動付与 */}
-              <Image
-                src="/assets/profile.png"
+              {/* Profile photo
+                  process.env.NEXT_PUBLIC_BASE_PATH はビルド時に /cocoro2 として埋め込まれる */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/assets/profile.png`}
                 alt="cocoro"
-                fill
-                className="object-cover object-top"
-                priority
-                sizes="(max-width: 768px) 100vw, 50vw"
+                className="absolute inset-0 w-full h-full object-cover object-top"
               />
 
               {/* Corner decoration */}
