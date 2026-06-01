@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="cocoro — GIRLS HIPHOP / HIPHOP ダンス講師。SDA新長田校・マイセルフ立花校でレッスン生募集中。">
+<title>cocoro | GIRLS HIPHOP DANCE</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Bebas+Neue&family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   RESET & ROOT
+============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --deep:    #1A0A2E;
+  --deep2:   #120720;
+  --purple:  #7B5EA7;
+  --rose:    #C9748A;
+  --rose-lt: #e8a0b2;
+  --off:     #F5F0F8;
+  --muted:   #b8aec8;
+  --text:    #1C1C1C;
+
+  --font-display: 'Cormorant Garamond', serif;
+  --font-street:  'Bebas Neue', sans-serif;
+  --font-body:    'Noto Serif JP', serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--deep2);
+  color: var(--off);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   NOISE OVERLAY (全体グレイン)
+============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: .035;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ============================================================
+   SECTION COMMON
+============================================================ */
+.section-label {
+  font-family: var(--font-street);
+  font-size: 10px;
+  letter-spacing: .25em;
+  color: var(--rose);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 8vw, 36px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: .02em;
+  color: var(--off);
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--rose-lt);
+}
+
+/* ============================================================
+   S1 — HERO
+============================================================ */
+#hero {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* 動画BG */
+.hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: brightness(.72) saturate(1.1);
+}
+
+/* 動画がない間のプレースホルダー */
+.hero-placeholder {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 30%, #3d1a5a 0%, transparent 65%),
+    radial-gradient(ellipse 60% 80% at 20% 70%, #1e0d38 0%, transparent 55%),
+    linear-gradient(180deg, #120720 0%, #1a0a2e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-placeholder-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: .25;
+}
+
+.hero-placeholder-icon svg { width: 48px; height: 48px; }
+
+.hero-placeholder-text {
+  font-family: var(--font-street);
+  font-size: 10px;
+  letter-spacing: .3em;
+  color: #fff;
+}
+
+/* グラデーションオーバーレイ */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(18,7,32,.2) 40%,
+    rgba(18,7,32,.75) 75%,
+    rgba(18,7,32,.95) 100%
+  );
+  z-index: 1;
+}
+
+/* ヒーローコンテンツ */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 24px 52px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(201,116,138,.18);
+  border: 1px solid rgba(201,116,138,.45);
+  border-radius: 20px;
+  padding: 5px 14px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(6px);
+}
+
+.hero-badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--rose);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .4; transform: scale(.7); }
+}
+
+.hero-badge span {
+  font-family: var(--font-street);
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--rose-lt);
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 18vw, 80px);
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: -.01em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.hero-name-sub {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 4vw, 18px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--muted);
+  letter-spacing: .05em;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-tag {
+  font-family: var(--font-street);
+  font-size: 10px;
+  letter-spacing: .15em;
+  padding: 4px 12px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 3px;
+  color: rgba(255,255,255,.65);
+}
+
+/* スクロールヒント */
+.hero-scroll {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: .5;
+}
+
+.hero-scroll-text {
+  font-family: var(--font-street);
+  font-size: 8px;
+  letter-spacing: .25em;
+  color: var(--off);
+  writing-mode: vertical-rl;
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(180deg, var(--rose) 0%, transparent 100%);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+  50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  51%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+
+/* ============================================================
+   S2 — ABOUT
+============================================================ */
+#about {
+  padding: 72px 24px 64px;
+  position: relative;
+  background: linear-gradient(180deg, var(--deep2) 0%, var(--deep) 100%);
+}
+
+#about::before {
+  content: 'PROFILE';
+  position: absolute;
+  top: 32px;
+  right: -10px;
+  font-family: var(--font-street);
+  font-size: 72px;
+  letter-spacing: .1em;
+  color: rgba(123,94,167,.07);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.about-photo-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto 32px;
+}
+
+.about-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 30%, #4a2070 0%, transparent 70%),
+    linear-gradient(160deg, #2a1040 0%, #1a0a2e 100%);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.about-photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: .25;
+}
+
+.about-photo-placeholder svg { width: 36px; height: 36px; }
+
+.about-photo-placeholder span {
+  font-family: var(--font-street);
+  font-size: 9px;
+  letter-spacing: .2em;
+}
+
+/* 写真の飾り枠 */
+.about-photo-frame {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 60%;
+  height: 60%;
+  border-right: 1.5px solid var(--rose);
+  border-bottom: 1.5px solid var(--rose);
+  opacity: .4;
+  pointer-events: none;
+}
+
+.about-photo-frame2 {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 40%;
+  height: 40%;
+  border-left: 1.5px solid var(--purple);
+  border-top: 1.5px solid var(--purple);
+  opacity: .35;
+  pointer-events: none;
+}
+
+.about-text { margin-bottom: 28px; }
+
+.about-name-en {
+  font-family: var(--font-street);
+  font-size: 38px;
+  letter-spacing: .08em;
+  color: var(--off);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.about-name-ja {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--muted);
+  letter-spacing: .1em;
+  margin-bottom: 20px;
+}
+
+.about-body {
+  font-size: 13px;
+  line-height: 2;
+  color: rgba(245,240,248,.75);
+  font-weight: 300;
+}
+
+.about-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.badge {
+  font-family: var(--font-street);
+  font-size: 10px;
+  letter-spacing: .12em;
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+
+.badge--purple {
+  background: rgba(123,94,167,.2);
+  border: 1px solid rgba(123,94,167,.5);
+  color: #b89fd4;
+}
+
+.badge--rose {
+  background: rgba(201,116,138,.15);
+  border: 1px solid rgba(201,116,138,.45);
+  color: var(--rose-lt);
+}
+
+/* ============================================================
+   S3 — LESSON
+============================================================ */
+#lesson {
+  padding: 64px 24px;
+  background: var(--deep);
+  position: relative;
+}
+
+#lesson::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(123,94,167,.025) 0px,
+    rgba(123,94,167,.025) 1px,
+    transparent 1px,
+    transparent 20px
+  );
+  pointer-events: none;
+}
+
+.lesson-header {
+  margin-bottom: 32px;
+}
+
+.studio-card {
+  background: rgba(245,240,248,.04);
+  border: 1px solid rgba(245,240,248,.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: border-color .3s;
+}
+
+.studio-card:hover {
+  border-color: rgba(201,116,138,.35);
+}
+
+.studio-card-head {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid rgba(245,240,248,.07);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.studio-num {
+  font-family: var(--font-street);
+  font-size: 28px;
+  line-height: 1;
+  color: rgba(201,116,138,.35);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.studio-info { flex: 1; }
+
+.studio-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--off);
+  letter-spacing: .03em;
+  margin-bottom: 3px;
+}
+
+.studio-location {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .06em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.studio-location svg { width: 10px; height: 10px; opacity: .6; }
+
+.studio-day {
+  font-family: var(--font-street);
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--rose);
+  margin-top: 6px;
+}
+
+/* クラス一覧 */
+.class-list { padding: 12px 20px 16px; }
+
+.class-item {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(245,240,248,.05);
+}
+
+.class-item:last-child { border-bottom: none; }
+
+.class-time {
+  font-family: var(--font-street);
+  font-size: 10px;
+  letter-spacing: .05em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.class-name {
+  font-size: 12px;
+  color: var(--off);
+  letter-spacing: .04em;
+  font-weight: 400;
+}
+
+.class-target {
+  font-family: var(--font-street);
+  font-size: 8px;
+  letter-spacing: .1em;
+  padding: 3px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.class-target--angel  { background: rgba(201,116,138,.18); color: var(--rose-lt); }
+.class-target--junior { background: rgba(123,94,167,.2);   color: #b89fd4; }
+.class-target--adult  { background: rgba(245,240,248,.08); color: var(--muted); }
+
+/* 動画サムネ */
+.lesson-video-wrap {
+  position: relative;
+  margin: 0 20px 16px;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2a1040 0%, #1a0a2e 100%);
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lesson-video-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,.018) 0px,
+    rgba(255,255,255,.018) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+.lesson-video-btn {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: transform .25s;
+}
+
+.lesson-video-wrap:hover .lesson-video-btn { transform: scale(1.05); }
+
+.play-circle {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: rgba(201,116,138,.25);
+  border: 1.5px solid rgba(201,116,138,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: background .25s;
+}
+
+.lesson-video-wrap:hover .play-circle {
+  background: rgba(201,116,138,.45);
+}
+
+.play-triangle {
+  width: 0; height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 14px solid rgba(255,255,255,.9);
+  margin-left: 4px;
+}
+
+.play-label {
+  font-family: var(--font-street);
+  font-size: 9px;
+  letter-spacing: .2em;
+  color: rgba(255,255,255,.45);
+}
+
+.lesson-video-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  font-family: var(--font-street);
+  font-size: 8px;
+  letter-spacing: .15em;
+  color: rgba(255,255,255,.35);
+  z-index: 1;
+}
+
+/* スタジオリンク */
+.studio-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 20px 18px;
+  padding: 10px;
+  border: 1px solid rgba(245,240,248,.12);
+  border-radius: 3px;
+  font-family: var(--font-street);
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--muted);
+  transition: border-color .25s, color .25s;
+  position: relative;
+  z-index: 1;
+}
+
+.studio-link:hover {
+  border-color: rgba(201,116,138,.4);
+  color: var(--rose-lt);
+}
+
+.studio-link svg { width: 10px; height: 10px; }
+
+/* ============================================================
+   S4 — INSTAGRAM
+============================================================ */
+#instagram {
+  padding: 64px 24px;
+  background: linear-gradient(180deg, var(--deep) 0%, var(--deep2) 100%);
+}
+
+.ig-inner {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.ig-widget-wrap {
+  background: rgba(245,240,248,.04);
+  border: 1px solid rgba(245,240,248,.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 28px;
+}
+
+.ig-widget-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(245,240,248,.07);
+}
+
+.ig-avatar-ring {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9748A, #7B5EA7);
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.ig-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ig-avatar svg { width: 16px; height: 16px; opacity: .5; }
+
+.ig-meta { flex: 1; }
+
+.ig-handle {
+  font-family: var(--font-street);
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: var(--off);
+}
+
+.ig-sub {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.ig-follow-btn {
+  font-family: var(--font-street);
+  font-size: 9px;
+  letter-spacing: .12em;
+  padding: 5px 14px;
+  background: rgba(201,116,138,.2);
+  border: 1px solid rgba(201,116,138,.45);
+  border-radius: 20px;
+  color: var(--rose-lt);
+  text-decoration: none;
+  transition: background .25s;
+}
+
+.ig-follow-btn:hover { background: rgba(201,116,138,.35); }
+
+/* SnapWidget 埋め込みエリア */
+.ig-feed-placeholder {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.ig-cell {
+  aspect-ratio: 1;
+  background: rgba(245,240,248,.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ig-cell:nth-child(odd) { background: rgba(245,240,248,.06); }
+
+.ig-cell svg { width: 18px; height: 18px; opacity: .15; }
+
+.ig-note {
+  text-align: center;
+  font-size: 10px;
+  color: rgba(245,240,248,.25);
+  padding: 12px;
+  letter-spacing: .06em;
+}
+
+/* ============================================================
+   S5 — CTA
+============================================================ */
+#cta {
+  padding: 72px 24px 80px;
+  background: var(--deep2);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景の装飾円 */
+#cta::before {
+  content: '';
+  position: absolute;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123,94,167,.15) 0%, transparent 70%);
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.cta-label { margin-bottom: 16px; }
+
+.cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 9vw, 38px);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--off);
+  margin-bottom: 14px;
+}
+
+.cta-title em { font-style: italic; color: var(--rose-lt); }
+
+.cta-body {
+  font-size: 12px;
+  line-height: 2;
+  color: var(--muted);
+  margin-bottom: 36px;
+  font-weight: 300;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  padding: 18px 24px;
+  background: linear-gradient(135deg, var(--rose) 0%, #a0456a 100%);
+  border-radius: 3px;
+  font-family: var(--font-street);
+  font-size: 13px;
+  letter-spacing: .2em;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 8px 32px rgba(201,116,138,.25);
+}
+
+.cta-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.12) 0%, transparent 50%);
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(201,116,138,.4);
+}
+
+.cta-btn:active { transform: translateY(0); }
+
+.cta-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+.cta-note {
+  margin-top: 16px;
+  font-size: 11px;
+  color: rgba(245,240,248,.3);
+  letter-spacing: .06em;
+}
+
+/* ============================================================
+   S6 — FOOTER
+============================================================ */
+#footer {
+  padding: 40px 24px 48px;
+  background: var(--deep2);
+  border-top: 1px solid rgba(245,240,248,.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: .05em;
+  color: var(--off);
+}
+
+.footer-org {
+  font-family: var(--font-street);
+  font-size: 9px;
+  letter-spacing: .2em;
+  color: var(--muted);
+  margin-top: 2px;
+  text-align: center;
+}
+
+.footer-sns {
+  display: flex;
+  gap: 14px;
+}
+
+.footer-sns-link {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(245,240,248,.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .25s, background .25s;
+}
+
+.footer-sns-link:hover {
+  border-color: var(--rose);
+  background: rgba(201,116,138,.1);
+}
+
+.footer-sns-link svg { width: 16px; height: 16px; }
+
+.footer-copy {
+  font-size: 10px;
+  color: rgba(245,240,248,.2);
+  letter-spacing: .1em;
+}
+
+/* ============================================================
+   VIDEO MODAL
+============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,4,20,.92);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s;
+  backdrop-filter: blur(8px);
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-inner {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform .35s;
+}
+
+.modal-overlay.is-open .modal-inner {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  width: 36px; height: 36px;
+  background: rgba(245,240,248,.1);
+  border: 1px solid rgba(245,240,248,.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.modal-close:hover { background: rgba(201,116,138,.2); }
+.modal-close svg { width: 14px; height: 14px; }
+
+.modal-video-wrap {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.modal-video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 動画プレースホルダー */
+.modal-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #1a0a2e 0%, #120720 100%);
+}
+
+.modal-placeholder svg { width: 40px; height: 40px; opacity: .3; }
+
+.modal-placeholder-text {
+  font-family: var(--font-street);
+  font-size: 9px;
+  letter-spacing: .2em;
+  color: rgba(255,255,255,.25);
+}
+
+.modal-title {
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--muted);
+  letter-spacing: .06em;
+  text-align: center;
+}
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     S1: HERO
+============================================================ -->
+<section id="hero">
+
+  <!-- 動画BG（素材入手後にsrc属性へパスを設定） -->
+  <div class="hero-video-wrap">
+    <!--
+      <video autoplay muted loop playsinline>
+        <source src="./assets/hero.mp4" type="video/mp4">
+      </video>
+    -->
+    <div class="hero-placeholder">
+      <div class="hero-placeholder-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" color="#fff">
+          <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+        </svg>
+        <span class="hero-placeholder-text">MAIN VIDEO — REPLACE ME</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      <span>GIRLS HIPHOP &amp; HIPHOP</span>
+    </div>
+    <h1 class="hero-name">cocoro</h1>
+    <p class="hero-name-sub">踊ることで、自分になる。</p>
+    <div class="hero-tags">
+      <span class="hero-tag">S PROJECT</span>
+      <span class="hero-tag">KOBE BASE</span>
+      <span class="hero-tag">LESSON OPEN</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">SCROLL</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     S2: ABOUT
+============================================================ -->
+<section id="about">
+
+  <div class="about-photo-wrap reveal">
+    <div class="about-photo">
+      <div class="about-photo-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span style="font-family:var(--font-street);font-size:9px;letter-spacing:.2em;color:#fff;">PHOTO HERE</span>
+      </div>
+    </div>
+    <div class="about-photo-frame"></div>
+    <div class="about-photo-frame2"></div>
+  </div>
+
+  <div class="about-text reveal">
+    <span class="section-label">Profile</span>
+    <div class="about-name-en">COCORO</div>
+    <div class="about-name-ja">温</div>
+    <p class="about-body">
+      GIRLS HIPHOPとHIPHOPを軸に、力強さと繊細さを踊りで表現するダンス講師。<br>
+      S projectに所属し、関西を拠点に活動。<br><br>
+      「踊ることで自分を表現する喜びを、すべての人に」をモットーに、
+      幼児から大人まで幅広い年齢層を対象にレッスンを展開中。
+    </p>
+    <div class="about-badges">
+      <span class="badge badge--rose">GIRLS HIPHOP</span>
+      <span class="badge badge--rose">HIPHOP</span>
+      <span class="badge badge--purple">S PROJECT</span>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     S3: LESSON
+============================================================ -->
+<section id="lesson">
+
+  <div class="lesson-header reveal">
+    <span class="section-label">Lesson</span>
+    <h2 class="section-title">Studio<br><em>Information</em></h2>
+  </div>
+
+  <!-- CARD 1: SDA新長田校 -->
+  <div class="studio-card reveal">
+    <div class="studio-card-head">
+      <div class="studio-num">01</div>
+      <div class="studio-info">
+        <div class="studio-name">SDA 新長田校</div>
+        <div class="studio-location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          </svg>
+          常磐アリーナ
+        </div>
+        <div class="studio-day">every MON（毎月1週目休み）</div>
+      </div>
+    </div>
+
+    <div class="class-list">
+      <div class="class-item">
+        <span class="class-time">17:50–18:30</span>
+        <span class="class-name">エンジェルクラス</span>
+        <span class="class-target class-target--angel">幼稚園児</span>
+      </div>
+      <div class="class-item">
+        <span class="class-time">18:40–19:30</span>
+        <span class="class-name">ジュニアクラス</span>
+        <span class="class-target class-target--junior">小学生</span>
+      </div>
+      <div class="class-item">
+        <span class="class-time">19:40–20:30</span>
+        <span class="class-name">一般クラス</span>
+        <span class="class-target class-target--adult">中学生〜</span>
+      </div>
+    </div>
+
+    <!-- 動画サムネイル（モーダルトリガー） -->
+    <div class="lesson-video-wrap"
+         data-modal-title="SDA新長田校 — レッスン風景"
+         data-video-src="./assets/lesson-sda.mp4"
+         onclick="openModal(this)">
+      <!--
+        サムネ画像がある場合:
+        <img src="./assets/thumb-sda.jpg" alt="SDA新長田校レッスン" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.6;">
+      -->
+      <div class="lesson-video-btn">
+        <div class="play-circle">
+          <div class="play-triangle"></div>
+        </div>
+        <span class="play-label">LESSON VIDEO</span>
+      </div>
+      <span class="lesson-video-badge">SDA 新長田校</span>
+    </div>
+
+    <a href="https://www.shinydanceacademy.jp/17248207147702"
+       target="_blank" rel="noopener"
+       class="studio-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
+      STUDIO HP
+    </a>
+  </div>
+
+  <!-- CARD 2: マイセルフ立花校 -->
+  <div class="studio-card reveal">
+    <div class="studio-card-head">
+      <div class="studio-num">02</div>
+      <div class="studio-info">
+        <div class="studio-name">マイセルフ 立花校</div>
+        <div class="studio-location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          </svg>
+          ユアスタジオ
+        </div>
+        <div class="studio-day">every FRI（5週目休み）</div>
+      </div>
+    </div>
+
+    <div class="class-list">
+      <div class="class-item">
+        <span class="class-time">17:15–18:15</span>
+        <span class="class-name">ストリート初級</span>
+        <span class="class-target class-target--junior">全年齢</span>
+      </div>
+      <div class="class-item">
+        <span class="class-time">18:15–19:15</span>
+        <span class="class-name">K-POP 入門</span>
+        <span class="class-target class-target--angel">全年齢</span>
+      </div>
+    </div>
+
+    <!-- 動画サムネイル（モーダルトリガー） -->
+    <div class="lesson-video-wrap"
+         data-modal-title="マイセルフ立花校 — レッスン風景"
+         data-video-src="./assets/lesson-myself.mp4"
+         onclick="openModal(this)">
+      <div class="lesson-video-btn">
+        <div class="play-circle">
+          <div class="play-triangle"></div>
+        </div>
+        <span class="play-label">LESSON VIDEO</span>
+      </div>
+      <span class="lesson-video-badge">マイセルフ 立花校</span>
+    </div>
+
+    <a href="https://danceschoolmyself.com"
+       target="_blank" rel="noopener"
+       class="studio-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
+      STUDIO HP
+    </a>
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     S4: INSTAGRAM
+============================================================ -->
+<section id="instagram">
+  <div class="ig-inner">
+    <div class="reveal">
+      <span class="section-label">Instagram</span>
+      <h2 class="section-title"><em>Latest</em><br>Posts</h2>
+    </div>
+
+    <div class="ig-widget-wrap reveal">
+      <div class="ig-widget-header">
+        <div class="ig-avatar-ring">
+          <div class="ig-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ig-meta">
+          <div class="ig-handle">@cocoro_on_02</div>
+          <div class="ig-sub">GIRLS HIPHOP / HIPHOP</div>
+        </div>
+        <a href="https://www.instagram.com/cocoro_on_02"
+           target="_blank" rel="noopener"
+           class="ig-follow-btn">FOLLOW</a>
+      </div>
+
+      <!--
+        SnapWidget 等の埋め込みコードをここに貼り付け。
+        例: <script src="https://snapwidget.com/js/snapwidget.js"></script>
+            <iframe src="https://snapwidget.com/embed/XXXXXXX" ...></iframe>
+        以下はプレースホルダー
+      -->
+      <div class="ig-feed-placeholder">
+        <div class="ig-cell">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="ig-cell">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
+            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+          </svg>
+        </div>
+        <div class="ig-cell">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="ig-cell">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="ig-cell">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
+            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+          </svg>
+        </div>
+        <div class="ig-cell">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+      </div>
+      <div class="ig-note">※ SnapWidget等のInstagramウィジェットに差し替え</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     S5: CTA
+============================================================ -->
+<section id="cta">
+  <div class="reveal">
+    <span class="section-label cta-label">Contact</span>
+    <h2 class="cta-title">体験レッスン、<br><em>気軽にどうぞ。</em></h2>
+    <p class="cta-body">
+      はじめての方も大歓迎。<br>
+      Instagram DMからお気軽にご連絡ください。
+    </p>
+    <a href="https://ig.me/m/cocoro_on_02"
+       target="_blank" rel="noopener"
+       class="cta-btn">
+      <!-- Instagram icon -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      INSTAGRAM DM で申し込む
+    </a>
+    <p class="cta-note">返信は数日以内にお送りします</p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     S6: FOOTER
+============================================================ -->
+<footer id="footer">
+  <div style="text-align:center;">
+    <div class="footer-name">cocoro</div>
+    <div class="footer-org">S PROJECT / GIRLS HIPHOP &amp; HIPHOP</div>
+  </div>
+  <div class="footer-sns">
+    <a href="https://www.instagram.com/cocoro_on_02"
+       target="_blank" rel="noopener"
+       class="footer-sns-link" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+  </div>
+  <p class="footer-copy">&copy; 2024 cocoro. All rights reserved.</p>
+</footer>
+
+
+<!-- ============================================================
+     VIDEO MODAL
+============================================================ -->
+<div class="modal-overlay" id="videoModal" onclick="handleModalClick(event)">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeModal()" aria-label="閉じる">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="modal-video-wrap">
+      <!-- 動画素材がある場合、JS で <video> を動的に挿入 -->
+      <div class="modal-placeholder" id="modalPlaceholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2">
+          <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+        <span class="modal-placeholder-text">VIDEO — REPLACE ME</span>
+      </div>
+      <video id="modalVideo" controls style="display:none;width:100%;height:100%;object-fit:contain;"></video>
+    </div>
+    <div class="modal-title" id="modalTitle"></div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+/* ---- Modal ---- */
+function openModal(trigger) {
+  const modal   = document.getElementById('videoModal');
+  const video   = document.getElementById('modalVideo');
+  const holder  = document.getElementById('modalPlaceholder');
+  const title   = document.getElementById('modalTitle');
+  const src     = trigger.dataset.videoSrc || '';
+  const label   = trigger.dataset.modalTitle || '';
+
+  title.textContent = label;
+
+  if (src) {
+    video.src = src;
+    video.style.display = 'block';
+    holder.style.display = 'none';
+    video.play().catch(() => {});
+  } else {
+    video.style.display = 'none';
+    holder.style.display = 'flex';
+  }
+
+  modal.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  modal.classList.remove('is-open');
+  video.pause();
+  video.src = '';
+  document.body.style.overflow = '';
+}
+
+function handleModalClick(e) {
+  if (e.target === e.currentTarget) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ---- Scroll Reveal ---- */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>
