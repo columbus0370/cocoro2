@@ -46,11 +46,10 @@ export default function About() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            /* スマホでは右のはみ出しをなくすため overflow-hidden + パディングでバッジ分を確保 */
-            className="relative pb-8 md:pb-0"
+            className="relative pb-8 md:pb-0 max-w-[280px] sm:max-w-none mx-auto"
           >
             <div
-              className="relative aspect-[3/4] rounded-2xl overflow-hidden glass"
+              className="relative aspect-[3/4] rounded-2xl overflow-hidden glass max-h-[340px] sm:max-h-none"
               style={{ border: "1px solid rgba(179,136,255,0.2)" }}
             >
               {/* Profile photo

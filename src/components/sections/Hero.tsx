@@ -6,6 +6,7 @@ import FloatingOrbs from "@/components/ui/FloatingOrbs";
 import StarField from "@/components/ui/StarField";
 
 const YT_ID = "6C2-AIDyTlA";
+const YT_THUMB = `https://img.youtube.com/vi/${YT_ID}/maxresdefault.jpg`;
 // loop/playlist パラメータを外してJS側でループ制御 → prev/next矢印が出なくなる
 const YT_SRC =
   `https://www.youtube-nocookie.com/embed/${YT_ID}` +
@@ -25,7 +26,7 @@ export default function Hero() {
     // 動画が実際に再生開始するまでカバーを維持
     // state 1 = playing になったときだけカバーを外す
     // 万が一メッセージが届かない場合は 6 秒でフォールバック
-    const fallback = setTimeout(() => setVideoPlaying(true), 6000);
+    const fallback = setTimeout(() => setVideoPlaying(true), 3000);
 
     const onMessage = (e: MessageEvent) => {
       if (!e.data || typeof e.data !== "string") return;
@@ -88,12 +89,18 @@ export default function Hero() {
           title="hero background"
         />
 
-        {/* 動画が再生開始するまで完全に隠すカバー。state=1(playing) で初めてフェードアウト */}
+        {/* サムネイルカバー: 動画ロード前にすぐ表示 → state=1(playing) でフェードアウト */}
         <motion.div
-          className="absolute inset-0 bg-[#0D0D0D]"
+          className="absolute inset-0"
           animate={{ opacity: videoPlaying ? 0 : 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          style={{ pointerEvents: "none" }}
+          style={{
+            pointerEvents: "none",
+            backgroundImage: `url(${YT_THUMB})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundColor: "#0D0D0D",
+          }}
         />
 
         {/* Dark overlay — テキスト可読性 */}
