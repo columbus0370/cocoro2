@@ -654,139 +654,45 @@ body::before {
   margin: 0 auto;
 }
 
-.ig-widget-wrap {
-  background: rgba(245,240,248,.04);
-  border: 1px solid rgba(245,240,248,.1);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 28px;
-}
-
-.ig-widget-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(245,240,248,.07);
-}
-
-.ig-avatar-ring {
-  width: 38px; height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #C9748A, #7B5EA7);
-  padding: 2px;
-  flex-shrink: 0;
-}
-
-.ig-avatar {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--deep);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ig-avatar svg { width: 16px; height: 16px; opacity: .5; }
-
-.ig-meta { flex: 1; }
-
-.ig-handle {
-  font-family: var(--font-street);
-  font-size: 12px;
-  letter-spacing: .08em;
-  color: var(--off);
-}
-
-.ig-sub {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 1px;
-}
-
 .ig-follow-btn {
-  font-family: var(--font-street);
-  font-size: 9px;
-  letter-spacing: .12em;
-  padding: 5px 14px;
-  background: rgba(201,116,138,.2);
-  border: 1px solid rgba(201,116,138,.45);
-  border-radius: 20px;
-  color: var(--rose-lt);
-  text-decoration: none;
-  transition: background .25s;
-}
-
-.ig-follow-btn:hover { background: rgba(201,116,138,.35); }
-
-/* Instagram リンクカード（外部サービス不使用） */
-.ig-link-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 48px 24px;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background .3s;
-}
-
-.ig-link-card:hover { background: rgba(245,240,248,.03); }
-
-.ig-link-logo {
-  width: 64px; height: 64px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 8px 24px rgba(201,116,138,.3);
-}
-
-.ig-link-logo svg { width: 32px; height: 32px; }
-
-.ig-link-handle {
-  font-family: var(--font-street);
-  font-size: 20px;
-  letter-spacing: .12em;
-  color: var(--off);
-}
-
-.ig-link-sub {
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: .06em;
-  text-align: center;
-  line-height: 1.8;
-}
-
-.ig-link-btn {
-  margin-top: 4px;
-  padding: 12px 32px;
-  background: linear-gradient(135deg, rgba(201,116,138,.2) 0%, rgba(123,94,167,.2) 100%);
-  border: 1px solid rgba(201,116,138,.5);
-  border-radius: 30px;
+  display: inline-block;
   font-family: var(--font-street);
   font-size: 11px;
-  letter-spacing: .2em;
+  letter-spacing: .18em;
+  padding: 12px 32px;
+  background: rgba(201,116,138,.18);
+  border: 1px solid rgba(201,116,138,.5);
+  border-radius: 30px;
   color: var(--rose-lt);
+  text-decoration: none;
   transition: background .25s, box-shadow .25s;
 }
 
-.ig-link-card:hover .ig-link-btn {
-  background: linear-gradient(135deg, rgba(201,116,138,.35) 0%, rgba(123,94,167,.3) 100%);
-  box-shadow: 0 4px 20px rgba(201,116,138,.25);
+.ig-follow-btn:hover {
+  background: rgba(201,116,138,.3);
+  box-shadow: 0 4px 20px rgba(201,116,138,.2);
 }
 
-.ig-note {
+/* Instagram 埋め込みリスト */
+.ig-embed-list {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.ig-embed-list .instagram-media {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  border-radius: 4px !important;
+}
+
+.ig-follow-wrap {
+  margin-top: 28px;
   text-align: center;
-  font-size: 10px;
-  color: rgba(245,240,248,.25);
-  padding: 12px;
-  letter-spacing: .06em;
 }
 
 /* ============================================================
@@ -1279,20 +1185,28 @@ body::before {
       <h2 class="section-title"><em>Latest</em><br>Posts</h2>
     </div>
 
-    <a href="https://www.instagram.com/cocoro_on_02"
-       target="_blank" rel="noopener"
-       class="ig-widget-wrap ig-link-card reveal">
-      <div class="ig-link-logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-          <circle cx="12" cy="12" r="4"/>
-          <circle cx="17.5" cy="6.5" r="1" fill="#fff" stroke="none"/>
-        </svg>
-      </div>
-      <div class="ig-link-handle">@cocoro_on_02</div>
-      <div class="ig-link-sub">最新のダンス動画・活動情報を<br>Instagramで発信中</div>
-      <div class="ig-link-btn">INSTAGRAM でフォローする</div>
-    </a>
+    <div class="ig-embed-list reveal">
+      <blockquote class="instagram-media"
+        data-instgrm-permalink="https://www.instagram.com/reel/DXMnmlzAdqF/?igsh=NGloNGZ1N3FiZXNh"
+        data-instgrm-version="14">
+      </blockquote>
+
+      <blockquote class="instagram-media"
+        data-instgrm-permalink="https://www.instagram.com/reel/DYmhQPnh7x8/?igsh=MTZ4bmkyYTVmYzNkcA=="
+        data-instgrm-version="14">
+      </blockquote>
+
+      <blockquote class="instagram-media"
+        data-instgrm-permalink="https://www.instagram.com/reel/DPIqwL4AcFF/?igsh=OGFuc3d6enoyZWFx"
+        data-instgrm-version="14">
+      </blockquote>
+    </div>
+
+    <div class="ig-follow-wrap reveal">
+      <a href="https://www.instagram.com/cocoro_on_02"
+         target="_blank" rel="noopener"
+         class="ig-follow-btn">@cocoro_on_02 をフォローする</a>
+    </div>
   </div>
 </section>
 
@@ -1430,6 +1344,9 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 </script>
+
+<!-- Instagram oEmbed -->
+<script async src="//www.instagram.com/embed.js"></script>
 
 </body>
 </html>
