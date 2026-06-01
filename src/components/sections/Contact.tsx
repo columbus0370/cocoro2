@@ -66,7 +66,7 @@ export default function Contact() {
           <p className="font-poppins text-[10px] tracking-[0.5em] uppercase mb-3" style={{ color: "var(--pink)" }}>
             Contact
           </p>
-          <h2 className="font-playfair text-5xl font-bold text-white">
+          <h2 className="font-playfair text-4xl sm:text-5xl font-bold text-white leading-tight">
             Get in<br />
             <span className="italic gradient-text">Touch</span>
           </h2>

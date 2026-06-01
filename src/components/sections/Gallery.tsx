@@ -31,7 +31,7 @@ export default function Gallery() {
             <p className="font-poppins text-[10px] tracking-[0.5em] uppercase mb-3" style={{ color: "var(--purple)" }}>
               Gallery
             </p>
-            <h2 className="font-playfair text-5xl font-bold text-white">
+            <h2 className="font-playfair text-4xl sm:text-5xl font-bold text-white leading-tight">
               World<br />
               <span className="italic gradient-text">of cocoro</span>
             </h2>

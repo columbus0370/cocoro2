@@ -83,6 +83,18 @@ body::before {
 /* ── Section spacing ── */
 .section-gap { padding: 100px 0; }
 
+/* ── Mobile text overflow guard ── */
+p, h1, h2, h3, h4, span, li {
+  overflow-wrap: break-word;
+  word-break: keep-all; /* 日本語は単語単位で改行 */
+}
+
+/* 英語の長い単語も折り返す */
+.font-poppins, .font-playfair {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
 /* ── Contact form ── */
 input, textarea, select {
   background: rgba(255,255,255,0.04);

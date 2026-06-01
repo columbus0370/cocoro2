@@ -67,7 +67,7 @@ export default function Message() {
         </motion.p>
 
         {/* Big animated words */}
-        <div className="flex flex-col items-center gap-4 mb-14">
+        <div className="flex flex-col items-center gap-3 mb-14">
           {words.map((word, i) => (
             <div key={i} className="overflow-hidden">
               <motion.p
@@ -75,7 +75,7 @@ export default function Message() {
                 animate={isInView ? { y: 0, opacity: 1 } : {}}
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 + 0.2 }}
                 className="font-playfair font-bold text-white"
-                style={{ fontSize: "clamp(32px, 8vw, 64px)" }}
+                style={{ fontSize: "clamp(28px, 7vw, 64px)" }}
               >
                 {word}
               </motion.p>

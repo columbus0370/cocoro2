@@ -68,7 +68,7 @@ export default function Lesson() {
           <p className="font-poppins text-[10px] tracking-[0.5em] uppercase mb-3" style={{ color: "var(--pink)" }}>
             Lesson
           </p>
-          <h2 className="font-playfair text-5xl font-bold text-white leading-tight">
+          <h2 className="font-playfair text-4xl sm:text-5xl font-bold text-white leading-tight">
             Classes &<br />
             <span className="italic gradient-text">Studios</span>
           </h2>
@@ -119,19 +119,19 @@ export default function Lesson() {
                   {studio.classes.map((cls) => (
                     <div
                       key={cls.name}
-                      className="flex items-start gap-4 p-4 rounded-xl"
+                      className="flex items-start gap-3 p-3 sm:p-4 rounded-xl"
                       style={{
                         background: "rgba(255,255,255,0.03)",
                         border: "1px solid rgba(255,255,255,0.05)",
                       }}
                     >
-                      <div className="flex-shrink-0">
-                        <p className="font-poppins text-xs font-medium text-white/50 whitespace-nowrap">
+                      <div className="flex-shrink-0 min-w-[100px]">
+                        <p className="font-poppins text-[11px] font-medium text-white/50 whitespace-nowrap">
                           {cls.time}
                         </p>
                       </div>
                       <div>
-                        <p className="font-noto text-sm font-medium text-white mb-0.5">{cls.name}</p>
+                        <p className="font-noto text-sm font-medium text-white mb-0.5 leading-snug">{cls.name}</p>
                         <p className="font-noto text-xs text-white/35">{cls.target}</p>
                       </div>
                     </div>

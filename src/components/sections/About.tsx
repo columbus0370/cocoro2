@@ -35,8 +35,8 @@ export default function About() {
           >
             About
           </p>
-          <h2 className="font-playfair text-5xl font-bold gradient-text leading-tight">
-            温<span className="italic font-light text-white/30 text-3xl ml-3">(cocoro)</span>
+          <h2 className="font-playfair text-4xl sm:text-5xl font-bold gradient-text leading-tight">
+            温<span className="italic font-light text-white/30 text-2xl sm:text-3xl ml-3">(cocoro)</span>
           </h2>
         </ScrollReveal>
 
@@ -88,12 +88,11 @@ export default function About() {
           >
             <motion.p
               variants={fadeInUp}
-              className="font-noto text-white/70 leading-[2] text-base"
+              className="font-noto text-white/70 leading-[2] text-sm sm:text-base"
             >
               ダンスを始めたのは、音楽に体が動いてしまったあの瞬間から。
               <br /><br />
-              GIRLS HIPHOPの持つ強さと可愛さ、その両方を表現することが私の好きなこと。
-              踊ることで、自分に自信がついた。もっとかっこよくなれた。
+              GIRLS HIPHOPの持つ強さと可愛さ、その両方を表現することが私の好きなこと。踊ることで、自分に自信がついた。もっとかっこよくなれた。
               その体験を、レッスンに来てくれるみんなにも届けたいと思っています。
             </motion.p>
 
