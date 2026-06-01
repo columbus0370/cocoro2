@@ -53,16 +53,12 @@ export default function About() {
               className="relative aspect-[3/4] rounded-2xl overflow-hidden glass"
               style={{ border: "1px solid rgba(179,136,255,0.2)" }}
             >
-              {/* Photo placeholder — replace with <img src="/assets/profile.jpg" ... /> */}
-              <div
-                className="absolute inset-0 flex flex-col items-center justify-center gap-4"
-                style={{
-                  background: "linear-gradient(145deg, rgba(179,136,255,0.08) 0%, rgba(255,94,168,0.05) 100%)",
-                }}
-              >
-                <div className="w-20 h-20 rounded-full" style={{ background: "rgba(179,136,255,0.15)", border: "1px solid rgba(179,136,255,0.3)" }} />
-                <p className="font-poppins text-xs text-white/20 tracking-wider">PHOTO COMING SOON</p>
-              </div>
+              {/* Profile photo */}
+              <img
+                src="/assets/profile.png"
+                alt="cocoro"
+                className="absolute inset-0 w-full h-full object-cover object-top"
+              />
 
               {/* Corner decoration */}
               <div

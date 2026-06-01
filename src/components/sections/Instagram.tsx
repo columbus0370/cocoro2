@@ -36,7 +36,6 @@ function ReelCard({ reel, index }: { reel: typeof REELS[number]; index: number }
           className="absolute inset-0 w-full h-full"
           frameBorder="0"
           scrolling="no"
-          allowtransparency="true"
           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
           loading="lazy"
           title={reel.label}
