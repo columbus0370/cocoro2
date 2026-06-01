@@ -87,7 +87,7 @@ export default function Instagram() {
             <span className="italic gradient-text">cocoro dance</span>
           </h2>
           <p className="font-noto text-white/40 text-sm">
-            最新のレッスン・パフォーマンスをInstagramで発信中
+            最新のレッスン・パフォーマンスを<br className="sm:hidden" />Instagramで発信中
           </p>
         </motion.div>
 

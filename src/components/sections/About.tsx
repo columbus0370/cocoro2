@@ -49,7 +49,7 @@ export default function About() {
             className="relative pb-8 md:pb-0 max-w-[280px] sm:max-w-none mx-auto"
           >
             <div
-              className="relative aspect-[3/4] rounded-2xl overflow-hidden glass max-h-[340px] sm:max-h-none"
+              className="relative rounded-2xl overflow-hidden glass h-[320px] sm:h-auto sm:aspect-[3/4]"
               style={{ border: "1px solid rgba(179,136,255,0.2)" }}
             >
               {/* Profile photo
