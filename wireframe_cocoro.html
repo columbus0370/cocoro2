@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cocoro LP ワイヤーフレーム（スマホ）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Hiragino Kaku Gothic Pro', sans-serif;
+    background: #f0ede8;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 40px 20px;
+    flex-wrap: wrap;
+  }
+
+  /* ===== ラベル共通 ===== */
+  .label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* ===== フレーム本体 ===== */
+  .phone-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .phone-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #555;
+    letter-spacing: .06em;
+    text-align: center;
+  }
+
+  .phone-frame {
+    width: 320px;
+    background: #fff;
+    border-radius: 36px;
+    border: 2.5px solid #c2bdb6;
+    box-shadow: 0 8px 32px rgba(0,0,0,.14);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ノッチ */
+  .notch {
+    width: 80px;
+    height: 22px;
+    background: #c2bdb6;
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  .phone-scroll {
+    height: 620px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #c2bdb6 transparent;
+  }
+
+  /* ===== セクション共通 ===== */
+  .wf-section {
+    width: 100%;
+    border-bottom: 1.5px dashed #d0cbc4;
+    padding: 16px 14px;
+    position: relative;
+  }
+
+  .section-tag {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: #aaa;
+    text-transform: uppercase;
+  }
+
+  /* ===== ブロックパーツ ===== */
+  .wf-box {
+    background: #e8e3dc;
+    border: 1.5px solid #c8c1b8;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #888;
+    letter-spacing: .05em;
+  }
+
+  .wf-line {
+    background: #d8d1c8;
+    border-radius: 3px;
+    height: 8px;
+  }
+
+  .wf-line.short { width: 55%; }
+  .wf-line.mid   { width: 78%; }
+  .wf-line.long  { width: 100%; }
+  .wf-line.xs    { width: 38%; height: 6px; }
+
+  .wf-dot-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .wf-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #bbb;
+    flex-shrink: 0;
+  }
+
+  .gap-4  { gap: 4px; }
+  .gap-6  { gap: 6px; }
+  .gap-8  { gap: 8px; }
+  .gap-10 { gap: 10px; }
+  .gap-12 { gap: 12px; }
+  .flex-col { display: flex; flex-direction: column; }
+  .flex-row { display: flex; flex-direction: row; }
+
+  /* ===== S1 Hero ===== */
+  #s1 {
+    background: #1a1018;
+    padding: 0;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+  }
+
+  .hero-video-area {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(160deg, #2a1a38 0%, #1a0a2e 60%, #0d0818 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* スキャンライン演出（動画っぽさ） */
+  .hero-video-area::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.02) 0px,
+      rgba(255,255,255,.02) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+    pointer-events: none;
+  }
+
+  .hero-play-btn {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(201,116,138,.3);
+    border: 2px solid rgba(201,116,138,.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-play-triangle {
+    width: 0; height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 12px solid rgba(255,255,255,.8);
+    margin-left: 3px;
+  }
+
+  .hero-video-label {
+    font-size: 8px;
+    color: rgba(255,255,255,.4);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+
+  /* 音波ライン装飾 */
+  .hero-wave {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    z-index: 1;
+  }
+
+  .hero-wave-bar {
+    width: 2px;
+    border-radius: 2px;
+    background: rgba(123,94,167,.6);
+    animation: waveAnim 1.2s ease-in-out infinite alternate;
+  }
+
+  @keyframes waveAnim {
+    from { transform: scaleY(1); }
+    to   { transform: scaleY(2.5); }
+  }
+
+  .hero-video-area svg {
+    opacity: .45;
+  }
+
+  .hero-text-overlay {
+    padding: 14px 14px 16px;
+    background: linear-gradient(0deg, rgba(26,10,46,.55) 0%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .hero-name {
+    width: 110px; height: 20px;
+    background: rgba(255,255,255,.85);
+    border-radius: 3px;
+  }
+
+  .hero-tagline {
+    width: 170px; height: 10px;
+    background: rgba(255,255,255,.5);
+    border-radius: 2px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    background: rgba(123,94,167,.7);
+    border-radius: 20px;
+    height: 16px;
+    width: 80px;
+    margin-top: 2px;
+  }
+
+  /* ===== S2 About ===== */
+  .about-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: #c8c0b4;
+    border: 2px solid #b0a89e;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ===== S3 Lesson Card ===== */
+  .lesson-card {
+    background: #ede8e1;
+    border: 1.5px solid #c8c1b8;
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* 動画サムネイルエリア */
+  .lesson-video-thumb {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(135deg, #2a1a38 0%, #1a0a2e 100%);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+
+  .lesson-video-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.015) 0px,
+      rgba(255,255,255,.015) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  }
+
+  .lesson-play-btn {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(201,116,138,.35);
+    border: 1.5px solid rgba(201,116,138,.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .lesson-play-triangle {
+    width: 0; height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 9px solid rgba(255,255,255,.85);
+    margin-left: 2px;
+  }
+
+  .lesson-video-caption {
+    position: absolute;
+    bottom: 6px;
+    left: 8px;
+    font-size: 7px;
+    color: rgba(255,255,255,.45);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+
+  /* 展開時の動画モーダルイメージ */
+  .video-expand-hint {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 7.5px;
+    color: #C9748A;
+    letter-spacing: .05em;
+    margin-top: -2px;
+  }
+
+  .expand-arrow {
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid #C9748A;
+  }
+
+  .lesson-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .studio-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: #c2bdb6;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .time-chip {
+    display: inline-flex;
+    align-items: center;
+    background: #d8d1c8;
+    border-radius: 4px;
+    height: 14px;
+    gap: 4px;
+    padding: 0 6px;
+    flex-shrink: 0;
+  }
+
+  .time-chip-line {
+    width: 50px; height: 5px;
+    background: #aaa;
+    border-radius: 2px;
+  }
+
+  .class-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 0;
+    border-bottom: 1px solid #d0cbc4;
+  }
+
+  .class-row:last-child { border-bottom: none; }
+
+  .class-tag {
+    width: 38px; height: 12px;
+    background: #c9748a44;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ===== S4 Instagram ===== */
+  .ig-embed-mock {
+    background: #ede8e1;
+    border: 1.5px solid #c8c1b8;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .ig-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #d0cbc4;
+  }
+
+  .ig-avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #c8c0b4;
+    flex-shrink: 0;
+  }
+
+  .ig-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .ig-cell {
+    aspect-ratio: 1;
+    background: #c8c0b4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ig-cell:nth-child(even) { background: #bbb5ae; }
+
+  /* ===== S5 CTA ===== */
+  .cta-btn {
+    background: #7B5EA7;
+    border-radius: 30px;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .cta-btn-line {
+    height: 8px; width: 120px;
+    background: rgba(255,255,255,.7);
+    border-radius: 4px;
+  }
+
+  .cta-icon {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.5);
+    flex-shrink: 0;
+  }
+
+  /* ===== S6 Footer ===== */
+  #s6 {
+    background: #1A0A2E;
+  }
+
+  .footer-line {
+    background: rgba(255,255,255,.2);
+    border-radius: 2px;
+    height: 7px;
+  }
+
+  /* ===== 注釈パネル ===== */
+  .annotation-panel {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-self: flex-start;
+    position: sticky;
+    top: 40px;
+  }
+
+  .anno-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #444;
+    letter-spacing: .06em;
+    border-bottom: 2px solid #c2bdb6;
+    padding-bottom: 6px;
+    margin-bottom: 2px;
+  }
+
+  .anno-item {
+    background: #fff;
+    border-radius: 10px;
+    border: 1.5px solid #d8d3cc;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .anno-num {
+    font-size: 9px;
+    font-weight: 700;
+    color: #7B5EA7;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .anno-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #222;
+    letter-spacing: .04em;
+  }
+
+  .anno-desc {
+    font-size: 10px;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .anno-elements {
+    margin-top: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .anno-el {
+    font-size: 9px;
+    color: #888;
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    line-height: 1.5;
+  }
+
+  .anno-el::before {
+    content: "→";
+    color: #C9748A;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .color-chips {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    color: #666;
+  }
+
+  .chip-dot {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== スマホフレーム ===== -->
+<div class="phone-wrapper">
+  <div class="phone-title">📱 MOBILE WIREFRAME — cocoro LP</div>
+  <div class="phone-frame">
+    <div class="notch"></div>
+    <div class="phone-scroll">
+
+      <!-- S1: Hero -->
+      <section class="wf-section" id="s1" style="border-bottom:none;">
+        <div class="section-tag">S1 · HERO</div>
+        <div class="hero-video-area">
+          <!-- 音波アニメ -->
+          <div class="hero-wave">
+            <div class="hero-wave-bar" style="height:8px;animation-delay:0s;"></div>
+            <div class="hero-wave-bar" style="height:14px;animation-delay:.15s;"></div>
+            <div class="hero-wave-bar" style="height:20px;animation-delay:.3s;"></div>
+            <div class="hero-wave-bar" style="height:28px;animation-delay:.1s;"></div>
+            <div class="hero-wave-bar" style="height:16px;animation-delay:.4s;"></div>
+            <div class="hero-wave-bar" style="height:10px;animation-delay:.25s;"></div>
+            <div class="hero-wave-bar" style="height:22px;animation-delay:.05s;"></div>
+            <div class="hero-wave-bar" style="height:18px;animation-delay:.35s;"></div>
+          </div>
+          <div class="hero-play-btn">
+            <div class="hero-play-triangle"></div>
+          </div>
+          <div class="hero-video-label">BG VIDEO / ループ再生</div>
+        </div>
+        <div class="hero-text-overlay">
+          <div class="hero-name"></div>
+          <div class="hero-tagline"></div>
+          <div class="hero-badge"></div>
+        </div>
+      </section>
+
+      <!-- S2: About -->
+      <section class="wf-section" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="section-tag">S2 · ABOUT</div>
+        <div class="label">PROFILE</div>
+        <div class="flex-row gap-10" style="align-items:flex-start;">
+          <div class="about-avatar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </div>
+          <div class="flex-col gap-6" style="flex:1;">
+            <div class="wf-line short"></div>
+            <div class="wf-line mid"></div>
+            <div class="wf-line long"></div>
+            <div class="wf-line mid"></div>
+            <div class="wf-line xs"></div>
+          </div>
+        </div>
+        <!-- Genre Badges -->
+        <div class="flex-row gap-6" style="flex-wrap:wrap;margin-top:2px;">
+          <div class="wf-box" style="width:90px;height:20px;border-radius:20px;">GIRLS HIPHOP</div>
+          <div class="wf-box" style="width:60px;height:20px;border-radius:20px;">HIPHOP</div>
+          <div class="wf-box" style="width:70px;height:20px;border-radius:20px;">S PROJECT</div>
+        </div>
+      </section>
+
+      <!-- S3: Lesson -->
+      <section class="wf-section" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="section-tag">S3 · LESSON</div>
+        <div class="label">STUDIO INFO</div>
+
+        <!-- Card 1 -->
+        <div class="lesson-card">
+          <div class="lesson-card-header">
+            <div class="studio-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              </svg>
+            </div>
+            <div class="flex-col gap-4" style="flex:1;">
+              <div class="wf-line short"></div>
+              <div class="wf-line xs" style="width:60%;"></div>
+            </div>
+          </div>
+          <div class="time-chip" style="width:100px;">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <div class="time-chip-line"></div>
+          </div>
+          <!-- Classes -->
+          <div class="class-row">
+            <div class="class-tag" style="background:#7B5EA733;"></div>
+            <div class="wf-line" style="width:60px;height:7px;"></div>
+            <div class="wf-line" style="flex:1;height:7px;margin-left:auto;width:auto;"></div>
+          </div>
+          <div class="class-row">
+            <div class="class-tag" style="background:#c9748a33;"></div>
+            <div class="wf-line" style="width:60px;height:7px;"></div>
+            <div class="wf-line" style="flex:1;height:7px;margin-left:auto;width:auto;"></div>
+          </div>
+          <div class="class-row">
+            <div class="class-tag"></div>
+            <div class="wf-line" style="width:60px;height:7px;"></div>
+            <div class="wf-line" style="flex:1;height:7px;margin-left:auto;width:auto;"></div>
+          </div>
+          <!-- 動画サムネイル（タップで展開） -->
+          <div class="lesson-video-thumb">
+            <div class="lesson-play-btn"><div class="lesson-play-triangle"></div></div>
+            <div class="lesson-video-caption">LESSON VIDEO — TAP TO PLAY</div>
+          </div>
+          <div class="video-expand-hint">
+            <div class="expand-arrow"></div>
+            <span>タップでレッスン動画を見る</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="lesson-card">
+          <div class="lesson-card-header">
+            <div class="studio-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              </svg>
+            </div>
+            <div class="flex-col gap-4" style="flex:1;">
+              <div class="wf-line short"></div>
+              <div class="wf-line xs" style="width:60%;"></div>
+            </div>
+          </div>
+          <div class="time-chip" style="width:100px;">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <div class="time-chip-line"></div>
+          </div>
+          <div class="class-row">
+            <div class="class-tag" style="background:#7B5EA733;"></div>
+            <div class="wf-line" style="width:60px;height:7px;"></div>
+            <div class="wf-line" style="flex:1;height:7px;margin-left:auto;width:auto;"></div>
+          </div>
+          <div class="class-row">
+            <div class="class-tag" style="background:#c9748a33;"></div>
+            <div class="wf-line" style="width:60px;height:7px;"></div>
+            <div class="wf-line" style="flex:1;height:7px;margin-left:auto;width:auto;"></div>
+          </div>
+          <!-- 動画サムネイル（タップで展開） -->
+          <div class="lesson-video-thumb">
+            <div class="lesson-play-btn"><div class="lesson-play-triangle"></div></div>
+            <div class="lesson-video-caption">LESSON VIDEO — TAP TO PLAY</div>
+          </div>
+          <div class="video-expand-hint">
+            <div class="expand-arrow"></div>
+            <span>タップでレッスン動画を見る</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- S4: Instagram -->
+      <section class="wf-section" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="section-tag">S4 · INSTAGRAM</div>
+        <div class="label">SNS FEED</div>
+        <div class="ig-embed-mock">
+          <div class="ig-header">
+            <div class="ig-avatar"></div>
+            <div class="flex-col gap-4" style="flex:1;">
+              <div class="wf-line xs"></div>
+              <div class="wf-line" style="width:50%;height:6px;"></div>
+            </div>
+            <div class="wf-box" style="width:50px;height:18px;border-radius:4px;font-size:8px;">フォロー</div>
+          </div>
+          <div class="ig-grid">
+            <div class="ig-cell"></div>
+            <div class="ig-cell"></div>
+            <div class="ig-cell"></div>
+            <div class="ig-cell"></div>
+            <div class="ig-cell"></div>
+            <div class="ig-cell"></div>
+          </div>
+        </div>
+        <div style="font-size:8px;color:#aaa;text-align:center;">※ Instagramウィジェット埋め込み（SnapWidget等）</div>
+      </section>
+
+      <!-- S5: CTA -->
+      <section class="wf-section" style="display:flex;flex-direction:column;gap:10px;background:#f5f0f8;">
+        <div class="section-tag">S5 · CTA</div>
+        <div class="label">CONTACT / 体験申込</div>
+        <div class="flex-col gap-6" style="align-items:center;padding:4px 0;">
+          <div class="wf-line mid" style="margin:0 auto;"></div>
+          <div class="wf-line short" style="margin:0 auto;"></div>
+        </div>
+        <div class="cta-btn">
+          <div class="cta-icon"></div>
+          <div class="cta-btn-line"></div>
+        </div>
+        <div style="font-size:8px;color:#aaa;text-align:center;">→ Instagram DM へ遷移</div>
+      </section>
+
+      <!-- S6: Footer -->
+      <section class="wf-section" id="s6" style="display:flex;flex-direction:column;gap:8px;border:none;">
+        <div class="section-tag" style="color:#666;">S6 · FOOTER</div>
+        <div class="footer-line" style="width:60%;"></div>
+        <div class="footer-line" style="width:40%;"></div>
+        <div class="flex-row gap-8" style="margin-top:4px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.15);"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.15);"></div>
+        </div>
+        <div class="footer-line" style="width:50%;height:5px;margin-top:4px;"></div>
+      </section>
+
+    </div><!-- /phone-scroll -->
+  </div><!-- /phone-frame -->
+</div><!-- /phone-wrapper -->
+
+
+<!-- ===== 注釈パネル ===== -->
+<div class="annotation-panel">
+  <div class="anno-title">📋 SECTION NOTES</div>
+
+  <div class="anno-item">
+    <div class="anno-num">S1 · HERO</div>
+    <div class="anno-name">ファーストビュー（動画BG）</div>
+    <div class="anno-desc">メイン動画をフルワイドでループ再生。音声なし・自動再生。名前・キャッチコピー・ジャンルバッジをグラデーションオーバーレイで重ねる。</div>
+    <div class="anno-elements">
+      <div class="anno-el">動画プレースホルダー（後で差し替え）</div>
+      <div class="anno-el">autoplay / muted / loop / playsinline 設定</div>
+      <div class="anno-el">名前「cocoro」大見出し</div>
+      <div class="anno-el">キャッチコピー（Claude生成）</div>
+      <div class="anno-el">ジャンルバッジ「GIRLS HIPHOP」</div>
+    </div>
+  </div>
+
+  <div class="anno-item">
+    <div class="anno-num">S2 · ABOUT</div>
+    <div class="anno-name">プロフィール</div>
+    <div class="anno-desc">アバター写真＋テキスト横並び。経歴・メッセージはClaude生成テキストを使用。</div>
+    <div class="anno-elements">
+      <div class="anno-el">顔写真（丸形）</div>
+      <div class="anno-el">自己紹介文・経歴</div>
+      <div class="anno-el">ジャンル・所属バッジ</div>
+    </div>
+  </div>
+
+  <div class="anno-item">
+    <div class="anno-num">S3 · LESSON</div>
+    <div class="anno-name">レッスン情報 ＋ 動画展開</div>
+    <div class="anno-desc">スタジオごとにカード分け。クラス一覧の下に動画サムネイルを配置。タップするとモーダルまたはインライン展開で再生。</div>
+    <div class="anno-elements">
+      <div class="anno-el">SDA新長田校（月曜3クラス）</div>
+      <div class="anno-el">マイセルフ立花校（金曜2クラス）</div>
+      <div class="anno-el">各カードに動画サムネイル＋再生ボタン</div>
+      <div class="anno-el">タップ → モーダルorインライン展開で再生</div>
+      <div class="anno-el">スタジオHPリンクボタン</div>
+    </div>
+  </div>
+
+  <div class="anno-item">
+    <div class="anno-num">S4 · INSTAGRAM</div>
+    <div class="anno-name">SNSフィード</div>
+    <div class="anno-desc">SnapWidget等でInstagramフィードを3カラム埋め込み。フォローボタン付き。</div>
+    <div class="anno-elements">
+      <div class="anno-el">@cocoro_on_02 フィード</div>
+      <div class="anno-el">3列グリッド表示（最新6投稿）</div>
+      <div class="anno-el">Instagramへのリンク</div>
+    </div>
+  </div>
+
+  <div class="anno-item">
+    <div class="anno-num">S5 · CTA</div>
+    <div class="anno-name">体験申込ボタン</div>
+    <div class="anno-desc">メインCTAはInstagram DMへの遷移。紫のフルワイドボタンで視認性を確保。</div>
+    <div class="anno-elements">
+      <div class="anno-el">「体験レッスンを申し込む」ボタン</div>
+      <div class="anno-el">Instagram DMリンク</div>
+      <div class="anno-el">サブテキスト（気軽に〜など）</div>
+    </div>
+  </div>
+
+  <div class="anno-item">
+    <div class="anno-num">S6 · FOOTER</div>
+    <div class="anno-name">フッター</div>
+    <div class="anno-desc">ダークカラーで締め。名前・所属・SNSアイコンを配置。</div>
+    <div class="anno-elements">
+      <div class="anno-el">名前・所属クレジット</div>
+      <div class="anno-el">Instagramアイコンリンク</div>
+      <div class="anno-el">コピーライト</div>
+    </div>
+  </div>
+
+  <!-- カラーチップ -->
+  <div class="anno-item">
+    <div class="anno-num">COLOR PALETTE</div>
+    <div class="anno-name">提案カラー</div>
+    <div class="color-chips">
+      <div class="chip"><div class="chip-dot" style="background:#1A0A2E;border:1px solid #ccc;"></div>#1A0A2E</div>
+      <div class="chip"><div class="chip-dot" style="background:#7B5EA7;"></div>#7B5EA7</div>
+      <div class="chip"><div class="chip-dot" style="background:#C9748A;"></div>#C9748A</div>
+      <div class="chip"><div class="chip-dot" style="background:#F5F0F8;border:1px solid #ccc;"></div>#F5F0F8</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
