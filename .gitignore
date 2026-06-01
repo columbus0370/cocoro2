@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large video files — serve from CDN or hosting for production
+# Place compressed videos (hero.mp4 etc.) in public/assets/ locally
+# but do NOT commit large binaries to Git
+public/assets/*.mov
+public/assets/*.MOV
+public/assets/*.mp4
+public/assets/*.webm
