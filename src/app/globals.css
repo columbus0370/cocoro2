@@ -95,6 +95,20 @@ p, h1, h2, h3, h4, span, li {
   overflow-wrap: break-word;
 }
 
+/* ── iOS Safari fixes ── */
+/* .glass内のabsolute子要素がborder-radius+overflow:hiddenで消えるバグ対策。
+   translateZ(0)で新しいコンポジットレイヤーを作成し、クリッピングを正常化する */
+.glass {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* ── スマホ幅の最大値ガード ── */
+/* グリッド子要素がmin-contentでコンテナを横に広げることを防ぐ */
+.grid > * {
+  min-width: 0;
+}
+
 /* ── Contact form ── */
 input, textarea, select {
   box-sizing: border-box;

@@ -20,7 +20,7 @@ function ReelCard({ reel, index }: { reel: (typeof REELS)[number]; index: number
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.12 }}
       /* スマホでは中央寄せ・幅制限 */
-      className="mx-auto w-full max-w-[280px] sm:max-w-none group"
+      className="relative mx-auto w-full max-w-[280px] sm:max-w-none group"
     >
       <div
         className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"

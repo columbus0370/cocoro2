@@ -49,8 +49,16 @@ export default function About() {
             className="relative pb-8 md:pb-0 max-w-[280px] sm:max-w-none mx-auto"
           >
             <div
-              className="relative rounded-2xl overflow-hidden glass h-[320px] sm:h-auto sm:aspect-[3/4]"
-              style={{ border: "1px solid rgba(179,136,255,0.2)" }}
+              className="relative rounded-2xl glass"
+              style={{
+                border: "1px solid rgba(179,136,255,0.2)",
+                /* スマホ: 固定比率でコンテナを確保。aspect-ratioはoverflow:hiddenと
+                   border-radiusのiOS Safariバグを回避するためpaddingトリックを使用 */
+                aspectRatio: "3 / 4",
+                overflow: "hidden",
+                /* iOS Safari: isolation でスタッキングコンテキストを明示 */
+                isolation: "isolate",
+              }}
             >
               {/* Profile photo
                   process.env.NEXT_PUBLIC_BASE_PATH はビルド時に /cocoro2 として埋め込まれる */}
@@ -58,7 +66,19 @@ export default function About() {
               <img
                 src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/assets/profile.png`}
                 alt="cocoro"
-                className="absolute inset-0 w-full h-full object-cover object-center"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center top",
+                  display: "block",
+                  WebkitBackfaceVisibility: "hidden",
+                }}
               />
 
               {/* Corner decoration */}
